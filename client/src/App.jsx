@@ -12,6 +12,7 @@ import axios from 'axios';
 import { Spinner } from 'react-bootstrap';
 import AboutPage from './components/pages/AboutUs';
 import ProtectedRoute from './components/HOCs/ProtectedRoute';
+import CardPage from './components/pages/ClientCard';
 
 function App() {
   const [data, setData] = useState('');
@@ -97,10 +98,12 @@ function App() {
         },
         {
           path: '/login',
-          
-          element:  <ProtectedRoute isAllowed={!user} redirectTo="/">
-            <LoginPage loginHandler={loginHandler} />
-             </ProtectedRoute>,
+
+          element: (
+            <ProtectedRoute isAllowed={!user} redirectTo="/">
+              <LoginPage loginHandler={loginHandler} />
+            </ProtectedRoute>
+          ),
         },
         {
           path: '/about',
@@ -109,6 +112,10 @@ function App() {
               <AboutPage />
             </ProtectedRoute>
           ),
+        },
+        {
+          path: '/clientscard',
+          element: <CardPage />,
         },
       ],
     },
