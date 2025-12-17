@@ -24,3 +24,5 @@ candidatesRouter.get('/:id', verifyAccessToken, async (req, res) => {
     return res.sendStatus(500);
   }
 });
+
+module.exports = candidatesRouter;
