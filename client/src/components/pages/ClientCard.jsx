@@ -37,7 +37,18 @@ function CardPage() {
 
   return (
     <Container>
-      <h2 style={{ textAlign: 'center' }}>Карточки кандидатов</h2>
+      <h2
+        style={{
+          textAlign: 'center',
+          fontSize: '28px',
+          fontWeight: 600,
+          marginBottom: '24px',
+          letterSpacing: '0.3px',
+          color: '#1f2937', 
+        }}
+      >
+        Карточки кандидатов
+      </h2>
 
       <Button onClick={() => setShowForm(!showForm)} className="mb-3">
         Добавить
@@ -59,10 +70,7 @@ function CardPage() {
         {cards.map((card) => (
           <Col sm={4} key={card.id} className="mb-3">
             <Card style={{ width: '18rem' }}>
-              <Card.Img
-                variant="top"
-                src="https://via.placeholder.com/300x180"
-              />
+              <Card.Img variant="top" src="https://via.placeholder.com/300x180" />
 
               <ListGroup className="list-group-flush">
                 <ListGroup.Item>{card.title}</ListGroup.Item>
@@ -71,11 +79,7 @@ function CardPage() {
               </ListGroup>
 
               <Card.Body>
-                <Button
-                  variant="danger"
-                  size="sm"
-                  onClick={() => deleteHandler(card.id)}
-                >
+                <Button variant="danger" size="sm" onClick={() => deleteHandler(card.id)}>
                   Удалить
                 </Button>
               </Card.Body>
@@ -85,8 +89,6 @@ function CardPage() {
       </Row>
 
       <div>Всего карточек: {cards.length}</div>
-
-      
     </Container>
   );
 }
