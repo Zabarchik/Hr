@@ -28,5 +28,6 @@ app.get('/api/test', verifyAccessToken, (req, res) => {
 });
 app.use('/api/candidates', candidatesRouter);
 app.use('/api/stages', stagesRouter)
+app.use('/api/clientscard', candidatesRouter);
 
 module.exports = app;
