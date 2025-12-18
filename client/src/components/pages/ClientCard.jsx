@@ -10,6 +10,12 @@ import Col from 'react-bootstrap/Col';
 function CardPage() {
   const [cards, setCards] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  
+  useEffect(() => {
+    fetch("/api/tracks")
+      .then((res) => res.json())
+      .then((data) => setTracks(data));
+  }, []);
 
   const submitHandler = (e) => {
     e.preventDefault();
