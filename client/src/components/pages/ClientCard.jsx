@@ -73,13 +73,14 @@ const pageStyles = {
   card: {
     borderRadius: '16px',
     border: '1px solid #e5e7eb',
-    boxShadow: '0 6px 16px rgba(17, 24, 39, 0.06)',
+    boxShadow: '0 8px 24px rgba(220, 38, 38, 0.15)',
+    background: 'linear-gradient(180deg, #ffffff 0%, #fef2f2 100%)',
     overflow: 'hidden',
   },
   cardHeader: {
     padding: '14px 16px',
-    background: 'linear-gradient(180deg, #f9fafb 0%, #ffffff 100%)',
-    borderBottom: '1px solid #eef2f7',
+    background: 'linear-gradient(180deg, #fef2f2 0%, #ffffff 100%)',
+    borderBottom: '1px solid #fee2e2',
   },
   candidateName: {
     margin: 0,
@@ -122,6 +123,49 @@ const stageBadgeVariant = (stage) => {
   return 'info';
 };
 
+const santaInputStyle = {
+  backgroundImage: 'url(https://cdn-icons-png.flaticon.com/512/1684/1684375.png)',
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'right 8px top -2px',
+  backgroundSize: '22px',
+  paddingRight: '38px',
+};
+
+const snowStyles = {
+  snowWrapper: {
+    pointerEvents: 'none',
+    position: 'fixed',
+    inset: 0,
+    zIndex: 9999,
+    overflow: 'hidden',
+  },
+  snowflake: {
+    position: 'absolute',
+    top: '-10%',
+    color: 'white',
+    opacity: 0.8,
+    animation: 'snowfall linear infinite',
+  },
+};
+
+const Snow = () => (
+  <div style={snowStyles.snowWrapper}>
+    {Array.from({ length: 40 }).map((_, i) => (
+      <span
+        key={i}
+        style={{
+          ...snowStyles.snowflake,
+          left: `${Math.random() * 100}%`,
+          fontSize: `${Math.random() * 10 + 10}px`,
+          animationDuration: `${Math.random() * 10 + 10}s`,
+        }}
+      >
+        ❄
+      </span>
+    ))}
+  </div>
+);
+
 function CardPage() {
   const [cards, setCards] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -140,13 +184,16 @@ function CardPage() {
     const position = String(formData.get('position') || '').trim();
     const contact = String(formData.get('contact') || '').trim();
     const stage = String(formData.get('stage') || '').trim();
+
     axios
       .post('/api/clientscard')
       .then((res) => res.json())
       .then((data) => setCards(data));
 
     if (!fullName || !position || !contact || !stage) return;
+
     setCards((prev) => [...prev, { id: Date.now(), fullName, position, contact, stage }]);
+
     e.target.reset();
     setShowForm(false);
   };
@@ -156,110 +203,90 @@ function CardPage() {
   };
 
   return (
-    <Container>
-      <div style={pageStyles.headerWrap}>
-        <div>
-          <h2 style={pageStyles.title}>Кандидаты</h2>
-          <div style={pageStyles.subtitle}>
-            Добавляй кандидатов, отслеживай этап и контакты — всё в одном месте.
+    <>
+      <style>
+        {`
+          @keyframes snowfall {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(110vh); opacity: 0; }
+          }
+        `}
+      </style>
+
+      <Snow />
+
+      <Container>
+        <div style={pageStyles.headerWrap}>
+          <div>
+            <h2 style={pageStyles.title}>Кандидаты </h2>
+            <div style={pageStyles.subtitle}>
+              Добавляй кандидатов и встречай Новый год с порядком ✨
+            </div>
           </div>
+
+          <Button
+            onClick={() => setShowForm((s) => !s)}
+            variant={showForm ? 'outline-secondary' : 'primary'}
+          >
+            {showForm ? 'Закрыть форму' : 'Добавить кандидата'}
+          </Button>
         </div>
 
-        <Button
-          onClick={() => setShowForm((s) => !s)}
-          variant={showForm ? 'outline-secondary' : 'primary'}
-        >
-          {showForm ? 'Закрыть форму' : 'Добавить кандидата'}
-        </Button>
-      </div>
+        {showForm && (
+          <div style={pageStyles.panel}>
+            <Form onSubmit={submitHandler}>
+              <div style={pageStyles.formGrid}>
+                <div style={pageStyles.col6}>
+                  <Form.Label>ФИО</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="fullName"
+                    style={{ fontSize: '12px', ...santaInputStyle }}
+                  />
+                </div>
 
-      {showForm && (
-        <div style={pageStyles.panel}>
-          <Form onSubmit={submitHandler}>
-            <div style={pageStyles.formGrid}>
-              <div style={pageStyles.col6}>
-                <Form.Label>ФИО</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="fullName"
-                  placeholder="Например: Фуллстаков Фуллстак Фуллстакович"
-                  style={{ fontSize: '12px' }}
-                />
-              </div>
+                <div style={pageStyles.col6}>
+                  <Form.Label>Позиция</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="position"
+                    style={{ fontSize: '12px', ...santaInputStyle }}
+                  />
+                </div>
 
-              <div style={pageStyles.col6}>
-                <Form.Label>Позиция</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="position"
-                  placeholder="Например: Senior FullStack Developer"
-                  style={{ fontSize: '12px' }}
-                />
-              </div>
+                <div style={pageStyles.col8}>
+                  <Form.Label>Контакт</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="contact"
+                    style={{ fontSize: '12px', ...santaInputStyle }}
+                  />
+                </div>
 
-              <div style={pageStyles.col8}>
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="contact"
-                  placeholder="Email"
-                  style={{ fontSize: '12px' }}
-                />
-                <Form.Text className="text-muted">email</Form.Text>
-              </div>
-              <div style={pageStyles.col8}>
-                <Form.Label>Телефон</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="contact"
-                  placeholder="phone number"
-                  style={{ fontSize: '12px' }}
-                />
-                <Form.Text className="text-muted">телефон</Form.Text>
-              </div>
-              <div style={pageStyles.col8}>
-                <Form.Label>@Telegram</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="contact"
-                  placeholder="@nick"
-                  style={{ fontSize: '12px' }}
-                />
-                <Form.Text className="text-muted">ТГ</Form.Text>
-              </div>
+                <div style={pageStyles.col4}>
+                  <Form.Label>Этап</Form.Label>
+                  <Form.Select name="stage" defaultValue={STAGES[0]}>
+                    {STAGES.map((s) => (
+                      <option key={s}>{s}</option>
+                    ))}
+                  </Form.Select>
+                </div>
 
-              <div style={pageStyles.col4}>
-                <Form.Label>Этап</Form.Label>
-                <Form.Select name="stage" defaultValue={STAGES[0]}>
-                  {STAGES.map((s) => (
-                    <option key={s} value={s}>
-                      {s}
-                    </option>
-                  ))}
-                </Form.Select>
-              </div>
-
-              <div style={pageStyles.col12}>
-                <div style={pageStyles.helperRow}>
-                  <div className="text-muted" style={{ fontSize: '13px' }}>
-                    После создания карточка появится в списке ниже.
+                <div style={pageStyles.col12}>
+                  <div style={pageStyles.helperRow}>
+                    <Button type="submit" variant="success">
+                      Создать
+                    </Button>
                   </div>
-                  <Button type="submit" variant="success">
-                    Создать
-                  </Button>
                 </div>
               </div>
-            </div>
-          </Form>
-        </div>
-      )}
+            </Form>
+          </div>
+        )}
 
-      {cards.length === 0 ? (
-        <div style={pageStyles.emptyState}>
-          Пока нет кандидатов. Нажми <b>«Добавить кандидата»</b>, чтобы создать первую карточку.
-        </div>
-      ) : (
-        <>
+        {cards.length === 0 ? (
+          <div style={pageStyles.emptyState}>Пока нет кандидатов</div>
+        ) : (
           <Row>
             {cards.map((card) => (
               <Col sm={6} lg={4} key={card.id} className="mb-3">
@@ -267,40 +294,31 @@ function CardPage() {
                   <div style={pageStyles.cardHeader}>
                     <p style={pageStyles.candidateName}>{card.fullName}</p>
                     <p style={pageStyles.position}>{card.position}</p>
-
-                    <div style={pageStyles.metaRow}>
-                      <Badge bg={stageBadgeVariant(card.stage)}>{card.stage}</Badge>
-                      <span style={{ fontSize: '12px', color: '#9ca3af' }}>ID: {card.id}</span>
-                    </div>
+                    <Badge bg={stageBadgeVariant(card.stage)}>{card.stage}</Badge>
                   </div>
 
                   <ListGroup className="list-group-flush">
                     <ListGroup.Item>
-                      <span style={pageStyles.listItemLabel}>Контакты:</span>
                       <span style={pageStyles.listItemValue}>{card.contact}</span>
                     </ListGroup.Item>
                   </ListGroup>
 
-                  <Card.Body style={pageStyles.cardBody}>
-                    <div style={pageStyles.actionRow}>
-                      <Button
-                        variant="outline-danger"
-                        size="sm"
-                        onClick={() => deleteHandler(card.id)}
-                      >
-                        Удалить
-                      </Button>
-                    </div>
+                  <Card.Body>
+                    <Button
+                      size="sm"
+                      variant="outline-danger"
+                      onClick={() => deleteHandler(card.id)}
+                    >
+                      Удалить
+                    </Button>
                   </Card.Body>
                 </Card>
               </Col>
             ))}
           </Row>
-
-          <div style={pageStyles.count}>Всего кандидатов: {cards.length}</div>
-        </>
-      )}
-    </Container>
+        )}
+      </Container>
+    </>
   );
 }
 
