@@ -25,4 +25,10 @@ candidatesRouter.get('/:id', verifyAccessToken, async (req, res) => {
   }
 });
 
+candidatesRouter.post('/', verifyAccessToken, async (req, res) => {
+  const data = req.body;
+  const addCandidate = await Candidate.create(data);
+  res.status(200).json(addCandidate);
+});
+
 module.exports = candidatesRouter;
