@@ -1,5 +1,4 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom'; // Используем -dom
+import { NavLink } from 'react-router'
 import { Navbar, Container, Nav, Button } from 'react-bootstrap';
 import logo from '../../../public/images/logo.svg'
 

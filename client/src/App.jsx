@@ -1,5 +1,4 @@
-import React from 'react';
-import { Navigate, RouterProvider, createBrowserRouter } from 'react-router';
+import { RouterProvider, createBrowserRouter } from 'react-router';
 import MainPage from './components/pages/MainPage';
 import Layout from './components/Layout';
 import SignupPage from './components/pages/SignupPage';
@@ -8,7 +7,7 @@ import ErrorPage from './components/pages/ErrorPage';
 import { useEffect, useState } from 'react';
 import axiosInstance from './api/axiosInstance';
 import { setAccessToken } from './api/axiosInstance';
-import axios from 'axios';
+
 import { Spinner } from 'react-bootstrap';
 import AboutPage from './components/pages/AboutUs';
 import ProtectedRoute from './components/HOCs/ProtectedRoute';
