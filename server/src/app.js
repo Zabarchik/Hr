@@ -5,7 +5,8 @@ const cookieParser = require('cookie-parser');
 const tokensRouter = require('./routes/tokensRouter');
 const app = express();
 const verifyAccessToken = require('./middlewares/verifyAccessToken');
-const candidatesRouter = require('./routes/candidateRouter')
+const candidatesRouter = require('./routes/candidateRouter');
+const stagesRouter = require('./routes/stages.Router');
 
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
@@ -26,5 +27,6 @@ app.get('/api/test', verifyAccessToken, (req, res) => {
   res.sendStatus(204);
 });
 app.use('/api/candidates', candidatesRouter);
+app.use('/api/stages', stagesRouter)
 
 module.exports = app;
