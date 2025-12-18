@@ -14,14 +14,11 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
-  Stage.init(
-    {
-      title: DataTypes.STRING,
-    },
-    {
-      sequelize,
-      modelName: 'Stage',
-    },
-  );
+  Stage.init({
+    title: DataTypes.STRING
+  }, {
+    sequelize,
+    modelName: 'Stage',
+  });
   return Stage;
 };

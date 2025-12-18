@@ -11,15 +11,12 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  CandidatesStages.init(
-    {
-      candidateId: DataTypes.INTEGER,
-      stageId: DataTypes.INTEGER,
-    },
-    {
-      sequelize,
-      modelName: 'CandidatesStages',
-    },
-  );
+  CandidatesStages.init({
+    candidateId: DataTypes.INTEGER,
+    stageId: DataTypes.INTEGER
+  }, {
+    sequelize,
+    modelName: 'CandidatesStages',
+  });
   return CandidatesStages;
 };
