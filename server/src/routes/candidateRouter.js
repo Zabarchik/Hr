@@ -1,8 +1,15 @@
 const express = require('express');
-const { Candidate } = require('../../db/models');
+const { Candidate, Stage } = require('../../db/models');
 const verifyAccessToken = require('../middlewares/verifyAccessToken');
 
 const candidatesRouter = express.Router();
+
+candidatesRouter.get('/stage', async (req, res) => {
+  const a = await Candidate.findAll({
+    include: Stage,
+  });
+  res.status(201).json(a);
+});
 
 candidatesRouter.get('/:id', verifyAccessToken, async (req, res) => {
   try {

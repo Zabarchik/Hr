@@ -27,4 +27,5 @@ app.get('/api/test', verifyAccessToken, (req, res) => {
 });
 app.use('/api/clientscard', candidatesRouter);
 
+
 module.exports = app;
