@@ -14,8 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Stage.init({
-    title: DataTypes.STRING,
-    candidateId: DataTypes.INTEGER
+    title: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Stage',

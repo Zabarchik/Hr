@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   CandidatesStages.init({
     candidateId: DataTypes.INTEGER,
-    stageIg: DataTypes.INTEGER
+    stageId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'CandidatesStages',
