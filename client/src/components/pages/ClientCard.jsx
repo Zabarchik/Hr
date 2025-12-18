@@ -8,6 +8,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Badge from 'react-bootstrap/Badge';
 import axios from 'axios';
+import axiosInstance from '../../api/axiosInstance';
 
 const STAGES = [
   'Приглашение отправлено',
@@ -128,7 +129,7 @@ function CardPage() {
 
   useEffect(() => {
     axios
-      .post('/api/clientscard')
+      .get('/api/clientscard')
       .then((res) => res.json())
       .then((data) => setCards(data));
   }, []);
@@ -140,8 +141,8 @@ function CardPage() {
     const position = String(formData.get('position') || '').trim();
     const contact = String(formData.get('contact') || '').trim();
     const stage = String(formData.get('stage') || '').trim();
-    axios
-      .post('/api/clientscard')
+    axiosInstance
+      .post('/clientscard', )
       .then((res) => res.json())
       .then((data) => setCards(data));
 

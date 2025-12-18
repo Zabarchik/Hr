@@ -21,9 +21,15 @@ function Header({ user, logoutHandler }) {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link as={NavLink} to="/">Главная</Nav.Link>
-            <Nav.Link as={NavLink} to="/add">Добавить кандидата</Nav.Link>
+          <Nav className="me-auto d-flex gap-3">
+            <Button variant="info" >
+               <Nav.Link as={NavLink} to="/" className="text-dark">Главная</Nav.Link>
+            </Button>
+           
+            <Button variant="info">
+              <Nav.Link as={NavLink} to="/clientscard" className="text-dark">Добавить кандидата</Nav.Link>
+            </Button>
+            
           </Nav>
 
           <Nav className="align-items-center">

@@ -26,9 +26,8 @@ export default function MainPage() {
         <div 
           style={{ 
             display: 'grid', 
-            // repeat автоматически создает колонки равной ширины (1fr) 
-            // в количестве, равном длине массива stages
-            gridTemplateColumns: `repeat(${stages.length || 1}, 1fr)`, 
+
+            gridTemplateColumns: `repeat(${stages.length || 1}, minmax(0, 1fr))`, 
             gap: '15px', 
             alignItems: 'flex-start' 
           }}
@@ -43,8 +42,7 @@ export default function MainPage() {
               <h6 className="text-center border-bottom pb-2 mb-3 text-uppercase font-weight-bold" style={{ fontSize: '0.85rem' }}>
                 {stage.title}
               </h6>
-              
-              {/* Список кандидатов */}
+            
               <div className="d-flex flex-column gap-2">
                 {candidates
                   ?.filter((candidate) => 
