@@ -7,6 +7,7 @@ const app = express();
 const verifyAccessToken = require('./middlewares/verifyAccessToken');
 const candidatesRouter = require('./routes/candidateRouter');
 const stagesRouter = require('./routes/stages.Router');
+const aiRouter = require('./routes/ai.router');
 
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
@@ -29,5 +30,6 @@ app.get('/api/test', verifyAccessToken, (req, res) => {
 app.use('/api/candidates', candidatesRouter);
 app.use('/api/stages', stagesRouter);
 app.use('/api/clientscard', candidatesRouter);
+app.use('/api/ai', aiRouter);
 
 module.exports = app;

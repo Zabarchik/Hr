@@ -11,18 +11,16 @@ import axiosInstance from '../../api/axiosInstance';
 import { useNavigate } from 'react-router';
 import '../pages/ClientCard.css';
 
-const stageBadgeVariant = (stage) => {
-  if (stage === 'Отказ') return 'secondary';
-  if (stage === 'Вышел на работу') return 'success';
-  if (stage === 'Оффер') return 'primary';
-  return 'info';
-};
 
-function CardPage() {
+function ClientCard() {
   const [cards, setCards] = useState([]);
   const [showForm, setShowForm] = useState(false);
 
+  const [messages, setMessages] = useState([]);
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
   const navigate = useNavigate();
+
   const fetchCards = async () => {
     try {
       const { data } = await axiosInstance.get('/clientscard');
@@ -50,9 +48,26 @@ function CardPage() {
     setCards((prev) => prev.filter((card) => card.id !== id));
   };
 
+  const submitChatHandler = async (e) => {
+    e.preventDefault();
+
+    const data = Object.fromEntries(new FormData(e.target));
+    e.target.reset();
+
+    setMessages((prev) => [...prev, { role: 'user', text: data.question }]);
+
+    const response = await axiosInstance.post('/ai/completions', {
+      question: data.question,
+      context: {
+        candidates: cards,
+      },
+    });
+
+    setMessages((prev) => [...prev, { role: 'assistant', text: response.data.answer }]);
+  };
+
   return (
     <Container>
-      {/* ===== Header ===== */}
       <div className="client-header">
         <div>
           <h2 className="client-title">Кандидаты</h2>
@@ -69,7 +84,6 @@ function CardPage() {
         </Button>
       </div>
 
-      {/* ===== Form ===== */}
       {showForm && (
         <div className="client-panel">
           <Form onSubmit={submitHandler}>
@@ -81,7 +95,7 @@ function CardPage() {
 
               <div className="col-6">
                 <Form.Label>Фамилия</Form.Label>
-                <Form.Control type="text" name="surname" placeholder="Фуллстакович" required />
+                <Form.Control type="text" name="surname" placeholder="Фуллстаков" required />
               </div>
 
               <div className="col-8">
@@ -89,20 +103,20 @@ function CardPage() {
                 <Form.Control
                   type="text"
                   name="position"
-                  placeholder="Senior FullStack Developer"
+                  placeholder="Fullstack developer"
                   required
                 />
               </div>
 
               <div className="col-8">
                 <Form.Label>Телефон</Form.Label>
-                <Form.Control type="text" name="phone" placeholder="+7 900 000 00 00" required />
+                <Form.Control type="text" name="phone" placeholder="+7 900 000-00-00" required />
               </div>
 
               <div className="col-12">
                 <div className="client-helper-row">
                   <div className="text-muted" style={{ fontSize: '13px' }}>
-                    После создания вы будете перенаправлены на страницу с этапами отбора кандидата.
+                    После создания вы будете перенаправлены на страницу этапов.
                   </div>
                   <Button type="submit" variant="success">
                     Создать
@@ -114,7 +128,6 @@ function CardPage() {
         </div>
       )}
 
-      {/* ===== Empty state ===== */}
       {cards.length === 0 ? (
         <div className="client-empty">
           Пока нет кандидатов. Нажми <b>«Добавить кандидата»</b>, чтобы создать первую карточку.
@@ -132,7 +145,7 @@ function CardPage() {
                     <p className="client-position">{card.position}</p>
 
                     <div className="client-meta-row">
-                      <Badge bg={stageBadgeVariant(card.stage)}>{card.stage}</Badge>
+                      <Badge bg="info">{card.stage}</Badge>
                       <span className="text-muted" style={{ fontSize: '12px' }}>
                         ID: {card.id}
                       </span>
@@ -165,8 +178,50 @@ function CardPage() {
           <div className="client-count">Всего кандидатов: {cards.length}</div>
         </>
       )}
+
+      <div className="ai-assistant-wrapper">
+        <Button className="ai-assistant-button" onClick={() => setIsChatOpen((v) => !v)}>
+          🤖
+        </Button>
+
+        {isChatOpen && (
+          <div className="ai-assistant-modal">
+            <div className="ai-header">
+              <strong>HR-ассистент</strong>
+              <Button size="sm" variant="outline-secondary" onClick={() => setIsChatOpen(false)}>
+                ✕
+              </Button>
+            </div>
+
+            <div className="ai-body">
+              {messages.length === 0 && (
+                <div className="text-muted">
+                  Спроси, например:
+                  <br />
+                  «Кто из кандидатов застрял на интервью?»
+                </div>
+              )}
+
+              {messages.map((msg, index) => (
+                <div
+                  key={index}
+                  className={`ai-message ${msg.role === 'user' ? 'user' : 'assistant'}`}
+                >
+                  <strong>{msg.role === 'user' ? 'Ты:' : 'Бот:'}</strong>
+                  <div>{msg.text}</div>
+                </div>
+              ))}
+            </div>
+
+            <Form onSubmit={submitChatHandler} className="ai-footer">
+              <Form.Control type="text" name="question" placeholder="Задай вопрос…" required />
+              <Button type="submit">➤</Button>
+            </Form>
+          </div>
+        )}
+      </div>
     </Container>
   );
 }
 
-export default CardPage;
+export default ClientCard;
