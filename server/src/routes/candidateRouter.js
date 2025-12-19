@@ -1,5 +1,5 @@
 const express = require('express');
-const { Candidate, Stage } = require('../../db/models');
+const { Candidate, Stage, CandidatesStages } = require('../../db/models');
 const verifyAccessToken = require('../middlewares/verifyAccessToken');
 
 const candidatesRouter = express.Router();
@@ -54,7 +54,7 @@ candidatesRouter.get('/:id', verifyAccessToken, async (req, res) => {
   }
 });
 
-candidatesRouter.post('/', verifyAccessToken, async (req, res) => {
+candidatesRouter.post('/', async (req, res) => {
   try {
     const { name, surname, position, phone } = req.body;
 
@@ -93,6 +93,22 @@ candidatesRouter.post('/', verifyAccessToken, async (req, res) => {
     console.error(error);
     res.status(500).json({ message: 'Ошибка при создании кандидата' });
   }
+});
+
+candidatesRouter.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { position, phone } = req.body;
+  const refreshCondidates = await Candidate.update(
+    {
+      position,
+      phone,
+    },
+    {
+      where: { id },
+    },
+  );
+  // CandidatesStages.create({ candidateId: id, stageId });
+  res.status(201).json(refreshCondidates);
 });
 
 module.exports = candidatesRouter;

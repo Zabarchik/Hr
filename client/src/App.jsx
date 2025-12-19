@@ -14,6 +14,7 @@ import AboutPage from './components/pages/AboutUs';
 import ProtectedRoute from './components/HOCs/ProtectedRoute';
 import CardPage from './components/pages/ClientCard';
 import CreateNewCandidate from './components/pages/CreateNewCandidate';
+import ClientCard from './components/pages/ClientCard';
 
 function App() {
   const [data, setData] = useState('');
@@ -120,7 +121,7 @@ function App() {
         },
         {
           path: '/add',
-          element: <CreateNewCandidate />,
+          element: <ClientCard />,
         },
       ],
     },
