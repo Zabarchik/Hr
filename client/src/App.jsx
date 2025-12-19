@@ -12,8 +12,8 @@ import { setAccessToken } from './api/axiosInstance';
 import { Spinner } from 'react-bootstrap';
 import AboutPage from './components/pages/AboutUs';
 import ProtectedRoute from './components/HOCs/ProtectedRoute';
-import CardPage from './components/pages/';
-import CreateNewCandidate from './components/pages/CreateNewCandidate';
+import CardPage from './components/pages/ClientCard';
+
 
 function App() {
   const [data, setData] = useState('');
@@ -118,10 +118,7 @@ function App() {
           path: '/clientscard',
           element: <CardPage />,
         },
-        {
-          path: '/add',
-          element: <CreateNewCandidate />,
-        },
+
       ],
     },
   ]);
