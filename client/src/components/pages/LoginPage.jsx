@@ -5,7 +5,6 @@ export default function LoginPage({ loginHandler }) {
     <div className="container mt-5">
       <div className="row justify-content-center">
         <div className="col-md-5 col-lg-4">
-          {/* Обертка-карточка в стиле твоего приложения */}
           <div className="card bg-dark text-light shadow-lg border-0 p-4">
             <div className="text-center mb-4">
               <h2 className="text-info">Вход</h2>
