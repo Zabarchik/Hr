@@ -86,7 +86,7 @@ function App() {
         {
           path: '/',
           element: 
-           <ProtectedRoute isAllowed={!user} redirectTo="/">
+           <ProtectedRoute isAllowed={!!user} redirectTo="/registr">
              <MainPage testClickHandler={testClickHandler} />,
             </ProtectedRoute>
         },
@@ -113,7 +113,7 @@ function App() {
   
           path: '/clientscard',
           element:
-          <ProtectedRoute isAllowed={!user} redirectTo="/">
+          <ProtectedRoute isAllowed={!!user} redirectTo="/registr">
           <CardPage />,
             </ProtectedRoute>
         },
