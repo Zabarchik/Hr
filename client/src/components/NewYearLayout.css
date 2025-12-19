@@ -1,0 +1,110 @@
+.ny-layout {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+}
+
+.ny-content {
+  position: relative;
+  z-index: 2;
+}
+
+.ny-layout::before {
+  content: '🎄 ✨ 🎄 ✨ 🎄 ✨ 🎄';
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  opacity: 0.6;
+  letter-spacing: 10px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.snowflakes {
+  position: absolute;
+  top: -10%;
+  left: 0;
+  width: 100%;
+  height: 120%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.snowflakes span {
+  position: absolute;
+  top: -10%;
+  color: #c7d2fe;
+  font-size: 14px;
+  opacity: 0.7;
+  animation: snow-fall linear infinite;
+}
+
+.snowflakes span:nth-child(1) {
+  left: 10%;
+  animation-duration: 18s;
+}
+.snowflakes span:nth-child(2) {
+  left: 25%;
+  animation-duration: 22s;
+}
+.snowflakes span:nth-child(3) {
+  left: 40%;
+  animation-duration: 20s;
+}
+.snowflakes span:nth-child(4) {
+  left: 60%;
+  animation-duration: 24s;
+}
+.snowflakes span:nth-child(5) {
+  left: 75%;
+  animation-duration: 19s;
+}
+.snowflakes span:nth-child(6) {
+  left: 90%;
+  animation-duration: 21s;
+}
+
+@keyframes snow-fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(120vh) rotate(360deg);
+    opacity: 0.2;
+  }
+}
+
+.ny-main::before,
+.ny-main::after {
+  position: fixed;
+  bottom: 24px;
+  font-size: 28px;
+  opacity: 0.4;
+  z-index: 1;
+}
+
+.ny-main::before {
+  content: '🎄';
+  left: 18px;
+}
+
+.ny-main::after {
+  content: '🎄';
+  right: 18px;
+}
+
+.navbar-brand {
+  position: relative;
+}
+
+.navbar-brand::after {
+  content: '🎅';
+  position: absolute;
+  top: -10px;
+  right: -16px;
+  font-size: 16px;
+  transform: rotate(15deg);
+}

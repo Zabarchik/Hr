@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { NavLink, Route } from 'react-router';
 import { Navbar, Container, Nav, Button, Form, Modal } from 'react-bootstrap';
-import logo from '../../../public/images/logo.svg';
 import axios from 'axios';
 import ModalWindows from '../ui/ModalWindow';
 
@@ -20,7 +19,6 @@ function Header({ user, logoutHandler }) {
   useEffect(() => {
     axios
       .get('/api/clientscard/stage')
-      // .then((response) => console.log(response.data))
       .then((response) => setData(response.data));
   }, []);
 
@@ -51,7 +49,7 @@ function Header({ user, logoutHandler }) {
         <Container>
           <Navbar.Brand as={NavLink} to="/">
             <img
-              src={logo}
+              src={'/images/logo.svg'}
               alt="Логотип компании"
               className="bg-light rounded-pill px-3 py-1 shadow-sm"
               width="100"
@@ -66,7 +64,8 @@ function Header({ user, logoutHandler }) {
               <Nav.Link as={NavLink} to="/">
                 Главная
               </Nav.Link>
-              <Nav.Link as={NavLink} to="/add">
+              
+              <Nav.Link as={NavLink} to="/clientscard">
                 Добавить кандидата
               </Nav.Link>
               <Form.Control

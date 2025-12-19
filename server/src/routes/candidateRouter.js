@@ -111,4 +111,22 @@ candidatesRouter.put('/:id', async (req, res) => {
   res.status(201).json(refreshCondidates);
 });
 
+candidatesRouter.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const candidate = await Candidate.findByPk(id);
+
+    if (!candidate) {
+      return res.status(404).json({ message: 'Кандидат не найден' });
+    }
+    await CandidatesStages.destroy({ where: { candidateId: id } });
+    await candidate.destroy();
+
+    return res.sendStatus(204);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Ошибка при удалении кандидата' });
+  }
+});
 module.exports = candidatesRouter;
