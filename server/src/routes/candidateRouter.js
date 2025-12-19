@@ -21,6 +21,13 @@ candidatesRouter.get('/', async (req, res) => {
   }
 });
 
+candidatesRouter.get('/stage', async (req, res) => {
+  const a = await Candidate.findAll({
+    include: Stage,
+  });
+  res.status(201).json(a);
+});
+
 candidatesRouter.get('/:id', verifyAccessToken, async (req, res) => {
   try {
     const { id } = req.params;

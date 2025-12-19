@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import candidate from '../../../../server/db/models/candidate';
 
 export default function NewTrainingForm({ trainings, setTrainings }) {
   const [nameInput, setNameInput] = useState('');
@@ -65,7 +64,7 @@ export default function NewTrainingForm({ trainings, setTrainings }) {
         value={phoneInput}
       />
       <br />
-       <input
+      <input
         type="file"
         placeholder="Телефон"
         //

@@ -1,3 +1,4 @@
+import React from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router';
 import MainPage from './components/pages/MainPage';
 import Layout from './components/Layout';
@@ -12,6 +13,7 @@ import { Spinner } from 'react-bootstrap';
 import AboutPage from './components/pages/AboutUs';
 import ProtectedRoute from './components/HOCs/ProtectedRoute';
 import CardPage from './components/pages/ClientCard';
+import CreateNewCandidate from './components/pages/CreateNewCandidate';
 
 function App() {
   const [data, setData] = useState('');
@@ -115,6 +117,10 @@ function App() {
         {
           path: '/clientscard',
           element: <CardPage />,
+        },
+        {
+          path: '/add',
+          element: <CreateNewCandidate />,
         },
       ],
     },
