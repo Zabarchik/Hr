@@ -12,7 +12,7 @@ import axios from 'axios';
 import { Spinner } from 'react-bootstrap';
 import AboutPage from './components/pages/AboutUs';
 import ProtectedRoute from './components/HOCs/ProtectedRoute';
-import CardPage from './components/pages/ClientCard';
+import CardPage from './components/pages/';
 import CreateNewCandidate from './components/pages/CreateNewCandidate';
 
 function App() {
