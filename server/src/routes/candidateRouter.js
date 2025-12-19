@@ -1,5 +1,5 @@
 const express = require('express');
-const { Candidate, Stage } = require('../../db/models');
+const { Candidate, Stage, CandidatesStages } = require('../../db/models');
 const verifyAccessToken = require('../middlewares/verifyAccessToken');
 
 const candidatesRouter = express.Router();
@@ -54,7 +54,7 @@ candidatesRouter.get('/:id', verifyAccessToken, async (req, res) => {
   }
 });
 
-candidatesRouter.post('/', verifyAccessToken, async (req, res) => {
+candidatesRouter.post('/', async (req, res) => {
   try {
     const { name, surname, position, phone } = req.body;
 
@@ -95,4 +95,38 @@ candidatesRouter.post('/', verifyAccessToken, async (req, res) => {
   }
 });
 
+candidatesRouter.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { position, phone } = req.body;
+  const refreshCondidates = await Candidate.update(
+    {
+      position,
+      phone,
+    },
+    {
+      where: { id },
+    },
+  );
+  // CandidatesStages.create({ candidateId: id, stageId });
+  res.status(201).json(refreshCondidates);
+});
+
+candidatesRouter.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const candidate = await Candidate.findByPk(id);
+
+    if (!candidate) {
+      return res.status(404).json({ message: 'Кандидат не найден' });
+    }
+    await CandidatesStages.destroy({ where: { candidateId: id } });
+    await candidate.destroy();
+
+    return res.sendStatus(204);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Ошибка при удалении кандидата' });
+  }
+});
 module.exports = candidatesRouter;

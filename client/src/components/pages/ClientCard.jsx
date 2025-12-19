@@ -44,7 +44,8 @@ function ClientCard() {
     navigate('/');
   };
 
-  const deleteHandler = (id) => {
+  const deleteHandler = async (id) => {
+    await axiosInstance.delete(`/clientscard/${id}`);
     setCards((prev) => prev.filter((card) => card.id !== id));
   };
 

@@ -12,6 +12,7 @@ import { setAccessToken } from './api/axiosInstance';
 import { Spinner } from 'react-bootstrap';
 import ProtectedRoute from './components/HOCs/ProtectedRoute';
 import CardPage from './components/pages/ClientCard';
+import ClientCard from './components/pages/ClientCard';
 
 function App() {
   const [data, setData] = useState('');
@@ -109,13 +110,12 @@ function App() {
         },
        
         {
-
-  
           path: '/clientscard',
-          element:
-          <ProtectedRoute isAllowed={!!user} redirectTo="/registr">
-          <CardPage />,
-            </ProtectedRoute>
+          element: <CardPage />,
+        },
+        {
+          path: '/add',
+          element: <ClientCard />,
         },
       ],
     },

@@ -1,12 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router';
+import { useEffect, useState } from 'react';
+import { NavLink, Route } from 'react-router';
 import { Navbar, Container, Nav, Button, Form, Modal } from 'react-bootstrap';
 import axios from 'axios';
+import ModalWindows from '../ui/ModalWindow';
 
 function Header({ user, logoutHandler }) {
+  const [condidate, setCondidate] = useState([]);
+  const [fullscreen, setFullscreen] = useState(true);
   const [show, setShow] = useState(false);
+
+  function handleShow(breakpoint = true) {
+    setFullscreen(breakpoint);
+    setShow(true);
+  }
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const [share, setShare] = useState();
   const [data, setData] = useState();
   useEffect(() => {
@@ -14,42 +21,30 @@ function Header({ user, logoutHandler }) {
       .get('/api/clientscard/stage')
       .then((response) => setData(response.data));
   }, []);
+
   const findClickHandler = () => {
+    console.log(data, '<-----');
+    // console.log(data[0].name, '<-----');
     const result = data.filter((el) => {
-      return (
-        el.name === share || el.surname === share || el.Stages[el.Stages.length - 1].title === share
-      );
+      return el.name === share || el.surname === share || el.Stages.at(-1).title === share;
     });
-    console.log(result);
+
+    if (result.length !== 0) {
+      setShow(true);
+      setCondidate(result[0]);
+    }
   };
   return (
     <>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>{`${share}`}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Email адрес</Form.Label>
-              <Form.Control type="email" placeholder="name@example.com" autoFocus />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-              <Form.Label>Example textarea</Form.Label>
-              <Form.Control as="textarea" rows={3} />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Закрыть
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Сохранить изменения
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
+      <ModalWindows
+        condidate={condidate}
+        share={share}
+        fullscreen={fullscreen}
+        show={show}
+        handleShow={handleShow}
+        handleClose={handleClose}
+        setShow={setShow}
+      />
       <Navbar bg="dark" variant="dark" expand="lg" className="shadow-sm mb-4">
         <Container>
           <Navbar.Brand as={NavLink} to="/">
@@ -85,7 +80,6 @@ function Header({ user, logoutHandler }) {
                 variant="primary"
                 onClick={() => {
                   findClickHandler();
-                  handleShow();
                 }}
               >
                 Найти
