@@ -12,12 +12,9 @@ function Header({ user, logoutHandler }) {
   useEffect(() => {
     axios
       .get('/api/clientscard/stage')
-      // .then((response) => console.log(response.data))
       .then((response) => setData(response.data));
   }, []);
   const findClickHandler = () => {
-    // console.log(data, '<-----');
-    // console.log(data[0].name, '<-----');
     const result = data.filter((el) => {
       return (
         el.name === share || el.surname === share || el.Stages[el.Stages.length - 1].title === share
@@ -72,7 +69,8 @@ function Header({ user, logoutHandler }) {
               <Nav.Link as={NavLink} to="/">
                 Главная
               </Nav.Link>
-              <Nav.Link as={NavLink} to="/add">
+              
+              <Nav.Link as={NavLink} to="/clientscard">
                 Добавить кандидата
               </Nav.Link>
               <Form.Control

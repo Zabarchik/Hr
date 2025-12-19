@@ -10,10 +10,8 @@ import axiosInstance from './api/axiosInstance';
 import { setAccessToken } from './api/axiosInstance';
 
 import { Spinner } from 'react-bootstrap';
-import AboutPage from './components/pages/AboutUs';
 import ProtectedRoute from './components/HOCs/ProtectedRoute';
 import CardPage from './components/pages/ClientCard';
-import CreateNewCandidate from './components/pages/CreateNewCandidate';
 
 function App() {
   const [data, setData] = useState('');
@@ -87,7 +85,10 @@ function App() {
       children: [
         {
           path: '/',
-          element: <MainPage testClickHandler={testClickHandler} />,
+          element: 
+           <ProtectedRoute isAllowed={!user} redirectTo="/">
+             <MainPage testClickHandler={testClickHandler} />,
+            </ProtectedRoute>
         },
         {
           path: '/registr',
@@ -106,21 +107,15 @@ function App() {
             </ProtectedRoute>
           ),
         },
+       
         {
-          path: '/about',
-          element: (
-            <ProtectedRoute isAllowed={!!user} redirectTo="/registr">
-              <AboutPage />
-            </ProtectedRoute>
-          ),
-        },
-        {
+
+  
           path: '/clientscard',
-          element: <CardPage />,
-        },
-        {
-          path: '/add',
-          element: <CreateNewCandidate />,
+          element:
+          <ProtectedRoute isAllowed={!user} redirectTo="/">
+          <CardPage />,
+            </ProtectedRoute>
         },
       ],
     },
