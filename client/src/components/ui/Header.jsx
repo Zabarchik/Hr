@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom'; // Используем -dom
+import { useEffect, useState } from 'react';
+import { NavLink } from 'react-router'; 
 import { Navbar, Container, Nav, Button, Form, Modal } from 'react-bootstrap';
 import logo from '../../../public/images/logo.svg';
 import axios from 'axios';

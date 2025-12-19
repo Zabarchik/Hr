@@ -1,0 +1,104 @@
+/* ===============================
+   Page wrapper
+================================ */
+.main-page {
+  background: #ffffff;
+  color: #0f172a;
+  width: 100%;
+  min-height: calc(100vh - 120px);
+}
+
+/* ===============================
+   Board layout
+================================ */
+.main-board {
+  display: grid;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+/* ===============================
+   Stage column
+================================ */
+.stage-column {
+  background: #f8fafc;
+  border-radius: 18px;
+  padding: 14px;
+  min-height: 70vh;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  border: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===============================
+   Stage header
+================================ */
+.stage-header {
+  text-align: center;
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid #e5e7eb;
+
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #475569;
+  text-transform: uppercase;
+}
+
+/* ===============================
+   Candidates list
+================================ */
+.stage-candidates {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* ===============================
+   Empty stage
+================================ */
+.stage-empty {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #94a3b8;
+  text-align: center;
+}
+
+/* ===============================
+   Scrollbar (subtle)
+================================ */
+.stage-candidates::-webkit-scrollbar {
+  width: 6px;
+}
+
+.stage-candidates::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 6px;
+}
+
+.stage-candidates::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ===============================
+   Card tweaks inside board
+   (не ломает Card.jsx)
+================================ */
+.stage-column .client-card,
+.stage-column .card {
+  border-radius: 14px;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.05);
+  border: 1px solid #e5e7eb;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.stage-column .client-card:hover,
+.stage-column .card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}

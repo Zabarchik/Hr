@@ -1,0 +1,200 @@
+/* ===============================
+   Page header
+================================ */
+.client-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+.client-title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  color: #0f172a;
+}
+
+.client-subtitle {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #64748b;
+}
+
+/* ===============================
+   Panel / form
+================================ */
+.client-panel {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+  margin-bottom: 22px;
+}
+
+/* grid */
+.client-form-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 14px;
+}
+
+.col-4 { grid-column: span 4; }
+.col-6 { grid-column: span 6; }
+.col-8 { grid-column: span 8; }
+.col-12 { grid-column: span 12; }
+
+/* ===============================
+   Labels
+================================ */
+.client-panel label,
+.form-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+}
+
+/* ===============================
+   Inputs
+================================ */
+.client-panel .form-control {
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background-color: #ffffff;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: #0f172a;
+  transition: all 0.15s ease;
+}
+
+.client-panel .form-control::placeholder {
+  font-size: 12px;          /* ↓ уменьшенный placeholder */
+  color: #94a3b8;
+}
+
+.client-panel .form-control:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+/* ===============================
+   Helper row (bottom of form)
+================================ */
+.client-helper-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+/* ===============================
+   Buttons
+================================ */
+.client-panel .btn-success {
+  border-radius: 12px;
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  border: none;
+}
+
+.client-panel .btn-success:hover {
+  background: linear-gradient(135deg, #16a34a, #15803d);
+}
+
+/* ===============================
+   Empty state
+================================ */
+.client-empty {
+  padding: 20px;
+  border-radius: 18px;
+  background: #f8fafc;
+  color: #64748b;
+  text-align: center;
+  font-size: 14px;
+  border: 1px dashed #e5e7eb;
+}
+
+/* ===============================
+   Cards
+================================ */
+.client-card {
+  border-radius: 18px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  overflow: hidden;
+}
+
+.client-card-header {
+  padding: 16px 18px;
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  border-bottom: 1px solid #eef2f7;
+}
+
+.client-candidate-name {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.client-position {
+  margin-top: 4px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.client-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+/* ===============================
+   Card body
+================================ */
+.client-card-body {
+  padding: 14px 18px;
+}
+
+.client-action-row {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+/* ===============================
+   List items
+================================ */
+.client-list-label {
+  color: #64748b;
+  font-size: 12px;
+  margin-right: 6px;
+}
+
+.client-list-value {
+  color: #0f172a;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ===============================
+   Footer
+================================ */
+.client-count {
+  margin-top: 14px;
+  font-size: 13px;
+  color: #64748b;
+}

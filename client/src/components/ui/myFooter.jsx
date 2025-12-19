@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Nav } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 
 function MyFooter() {
   const currentYear = new Date().getFullYear();

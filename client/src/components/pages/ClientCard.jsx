@@ -115,6 +115,9 @@ const pageStyles = {
     textAlign: 'center',
   },
 };
+import axiosInstance from '../../api/axiosInstance';
+import { useNavigate } from 'react-router';
+import '../pages/ClientCard.css';
 
 const stageBadgeVariant = (stage) => {
   if (stage === 'Отказ') return 'secondary';
@@ -127,14 +130,25 @@ function CardPage() {
   const [cards, setCards] = useState([]);
   const [showForm, setShowForm] = useState(false);
 
+  const navigate = useNavigate();
+  const fetchCards = async () => {
+    try {
+      const { data } = await axiosInstance.get('/clientscard');
+      setCards(data);
+    } catch (err) {
+      console.error('Ошибка загрузки кандидатов:', err);
+    }
+  };
+
   useEffect(() => {
     axios
       .get('/api/clientscard')
       .then((res) => res.json())
       .then((data) => setCards(data));
+    fetchCards();
   }, []);
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const fullName = String(formData.get('fullName') || '').trim();
@@ -146,10 +160,11 @@ function CardPage() {
       .then((res) => res.json())
       .then((data) => setCards(data));
 
-    if (!fullName || !position || !contact || !stage) return;
-    setCards((prev) => [...prev, { id: Date.now(), fullName, position, contact, stage }]);
-    e.target.reset();
-    setShowForm(false);
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData);
+
+    await axiosInstance.post('/clientscard', data);
+    navigate('/');
   };
 
   const deleteHandler = (id) => {
@@ -158,10 +173,11 @@ function CardPage() {
 
   return (
     <Container>
-      <div style={pageStyles.headerWrap}>
+      {/* ===== Header ===== */}
+      <div className="client-header">
         <div>
-          <h2 style={pageStyles.title}>Кандидаты</h2>
-          <div style={pageStyles.subtitle}>
+          <h2 className="client-title">Кандидаты</h2>
+          <div className="client-subtitle">
             Добавляй кандидатов, отслеживай этап и контакты — всё в одном месте.
           </div>
         </div>
@@ -174,76 +190,40 @@ function CardPage() {
         </Button>
       </div>
 
+      {/* ===== Form ===== */}
       {showForm && (
-        <div style={pageStyles.panel}>
+        <div className="client-panel">
           <Form onSubmit={submitHandler}>
-            <div style={pageStyles.formGrid}>
-              <div style={pageStyles.col6}>
-                <Form.Label>ФИО</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="fullName"
-                  placeholder="Например: Фуллстаков Фуллстак Фуллстакович"
-                  style={{ fontSize: '12px' }}
-                />
+            <div className="client-form-grid">
+              <div className="col-6">
+                <Form.Label>Имя</Form.Label>
+                <Form.Control type="text" name="name" placeholder="Фуллстак" required />
               </div>
 
-              <div style={pageStyles.col6}>
+              <div className="col-6">
+                <Form.Label>Фамилия</Form.Label>
+                <Form.Control type="text" name="surname" placeholder="Фуллстакович" required />
+              </div>
+
+              <div className="col-8">
                 <Form.Label>Позиция</Form.Label>
                 <Form.Control
                   type="text"
                   name="position"
-                  placeholder="Например: Senior FullStack Developer"
-                  style={{ fontSize: '12px' }}
+                  placeholder="Senior FullStack Developer"
+                  required
                 />
               </div>
 
-              <div style={pageStyles.col8}>
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="contact"
-                  placeholder="Email"
-                  style={{ fontSize: '12px' }}
-                />
-                <Form.Text className="text-muted">email</Form.Text>
-              </div>
-              <div style={pageStyles.col8}>
+              <div className="col-8">
                 <Form.Label>Телефон</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="contact"
-                  placeholder="phone number"
-                  style={{ fontSize: '12px' }}
-                />
-                <Form.Text className="text-muted">телефон</Form.Text>
-              </div>
-              <div style={pageStyles.col8}>
-                <Form.Label>@Telegram</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="contact"
-                  placeholder="@nick"
-                  style={{ fontSize: '12px' }}
-                />
-                <Form.Text className="text-muted">ТГ</Form.Text>
+                <Form.Control type="text" name="phone" placeholder="+7 900 000 00 00" required />
               </div>
 
-              <div style={pageStyles.col4}>
-                <Form.Label>Этап</Form.Label>
-                <Form.Select name="stage" defaultValue={STAGES[0]}>
-                  {STAGES.map((s) => (
-                    <option key={s} value={s}>
-                      {s}
-                    </option>
-                  ))}
-                </Form.Select>
-              </div>
-
-              <div style={pageStyles.col12}>
-                <div style={pageStyles.helperRow}>
+              <div className="col-12">
+                <div className="client-helper-row">
                   <div className="text-muted" style={{ fontSize: '13px' }}>
-                    После создания карточка появится в списке ниже.
+                    После создания вы будете перенаправлены на страницу с этапами отбора кандидата.
                   </div>
                   <Button type="submit" variant="success">
                     Создать
@@ -255,8 +235,9 @@ function CardPage() {
         </div>
       )}
 
+      {/* ===== Empty state ===== */}
       {cards.length === 0 ? (
-        <div style={pageStyles.emptyState}>
+        <div className="client-empty">
           Пока нет кандидатов. Нажми <b>«Добавить кандидата»</b>, чтобы создать первую карточку.
         </div>
       ) : (
@@ -264,26 +245,30 @@ function CardPage() {
           <Row>
             {cards.map((card) => (
               <Col sm={6} lg={4} key={card.id} className="mb-3">
-                <Card style={pageStyles.card}>
-                  <div style={pageStyles.cardHeader}>
-                    <p style={pageStyles.candidateName}>{card.fullName}</p>
-                    <p style={pageStyles.position}>{card.position}</p>
+                <Card className="client-card">
+                  <div className="client-card-header">
+                    <p className="client-candidate-name">
+                      {card.name} {card.surname}
+                    </p>
+                    <p className="client-position">{card.position}</p>
 
-                    <div style={pageStyles.metaRow}>
+                    <div className="client-meta-row">
                       <Badge bg={stageBadgeVariant(card.stage)}>{card.stage}</Badge>
-                      <span style={{ fontSize: '12px', color: '#9ca3af' }}>ID: {card.id}</span>
+                      <span className="text-muted" style={{ fontSize: '12px' }}>
+                        ID: {card.id}
+                      </span>
                     </div>
                   </div>
 
                   <ListGroup className="list-group-flush">
                     <ListGroup.Item>
-                      <span style={pageStyles.listItemLabel}>Контакты:</span>
-                      <span style={pageStyles.listItemValue}>{card.contact}</span>
+                      <span className="client-list-label">Телефон:</span>
+                      <span className="client-list-value">{card.phone}</span>
                     </ListGroup.Item>
                   </ListGroup>
 
-                  <Card.Body style={pageStyles.cardBody}>
-                    <div style={pageStyles.actionRow}>
+                  <Card.Body className="client-card-body">
+                    <div className="client-action-row">
                       <Button
                         variant="outline-danger"
                         size="sm"
@@ -298,7 +283,7 @@ function CardPage() {
             ))}
           </Row>
 
-          <div style={pageStyles.count}>Всего кандидатов: {cards.length}</div>
+          <div className="client-count">Всего кандидатов: {cards.length}</div>
         </>
       )}
     </Container>
