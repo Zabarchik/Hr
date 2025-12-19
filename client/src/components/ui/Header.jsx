@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router'; 
+import React, { useEffect, useState } from 'react';
+import { NavLink } from 'react-router';
 import { Navbar, Container, Nav, Button, Form, Modal } from 'react-bootstrap';
-import logo from '../../../public/images/logo.svg';
 import axios from 'axios';
 
 function Header({ user, logoutHandler }) {
@@ -58,7 +57,7 @@ function Header({ user, logoutHandler }) {
         <Container>
           <Navbar.Brand as={NavLink} to="/">
             <img
-              src={logo}
+              src={'/images/logo.svg'}
               alt="Логотип компании"
               className="bg-light rounded-pill px-3 py-1 shadow-sm"
               width="100"
