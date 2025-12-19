@@ -16,7 +16,7 @@ export default function MainPage() {
 
 
 
-  return (
+  return ( 
     <div 
       className="bg-white text-dark w-100" 
       style={{ minHeight: 'calc(100vh - 120px)' }}
